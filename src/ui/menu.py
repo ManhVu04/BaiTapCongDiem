@@ -116,7 +116,7 @@ class Menu:
                     print("Không tìm thấy sinh viên.")
             elif choice == "4":
                 # Danh sách sinh viên
-                students = self.student_manager.list_students() if hasattr(self.student_manager, 'list_students') else self.student_manager.students
+                students = self.student_manager.list_all_students() if hasattr(self.student_manager, 'list_all_students') else self.student_manager.students
                 print("\n--- DANH SÁCH SINH VIÊN ---")
                 for s in students:
                     print(s)
