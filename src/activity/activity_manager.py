@@ -50,18 +50,41 @@ class ActivityManager:
     
     def delete_activity(self, activity_id: str) -> bool:
         """Xóa hoạt động"""
-        # TODO: Thành viên 2 implement
-        pass
+        for activity in self.activities:
+            if activity.activity_id == activity_id:
+                self.activities.remove(activity)
+                print(f"Đã xóa hoạt động: {activity}")
+                return True
+        print(f"Không tìm thấy hoạt động với ID: {activity_id}")
+        return False
     
     def add_participant(self, activity_id: str, student_id: str) -> bool:
         """Thêm sinh viên tham gia hoạt động"""
-        # TODO: Thành viên 2 implement
-        pass
+        for activity in self.activities:
+            if activity.activity_id == activity_id:
+                if student_id not in activity.participants:
+                    activity.participants.append(student_id)
+                    print(f"Đã thêm sinh viên {student_id} vào hoạt động {activity_id}")
+                    return True
+                else:
+                    print(f"Sinh viên {student_id} đã tham gia hoạt động {activity_id}")
+                    return False
+        print(f"Không tìm thấy hoạt động với ID: {activity_id}")
+        return False
     
     def remove_participant(self, activity_id: str, student_id: str) -> bool:
         """Xóa sinh viên khỏi hoạt động"""
-        # TODO: Thành viên 2 implement
-        pass
+        for activity in self.activities:
+            if activity.activity_id == activity_id:
+                if student_id in activity.participants:
+                    activity.participants.remove(student_id)
+                    print(f"Đã xóa sinh viên {student_id} khỏi hoạt động {activity_id}")
+                    return True
+                else:
+                    print(f"Sinh viên {student_id} không tham gia hoạt động {activity_id}")
+                    return False
+        print(f"Không tìm thấy hoạt động với ID: {activity_id}")
+        return False
     
     def list_activities(self) -> list:
         """Liệt kê tất cả hoạt động"""
@@ -70,5 +93,4 @@ class ActivityManager:
     
     def get_activities_by_type(self, activity_type: ActivityType) -> list:
         """Lấy hoạt động theo loại"""
-        # TODO: Thành viên 2 implement
-        pass
+        return [activity for activity in self.activities if activity.activity_type == activity_type]
