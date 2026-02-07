@@ -1,18 +1,20 @@
+Môn: Công cụ và môi trường phát triển phần mềm sáng T5.
 # Hệ Thống Quản Lý Điểm Cộng
 
 ## Mô tả dự án
 Đây là dự án nhóm để thực hành làm việc với Git. Hệ thống giúp quản lý và tính toán điểm cộng cho sinh viên.
 
 ## Thành viên nhóm và phân công
+Vũ Đức Mạnh: tạo dự án, phân công, tạo project và duyệt.
 
 | STT | Thành viên | Nhánh | Nhiệm vụ |
 |-----|------------|-------|----------|
-| 1 | Thành viên 1 | feature/member-1 | Module Student (Quản lý sinh viên) |
-| 2 | Thành viên 2 | feature/member-2 | Module Activity (Quản lý hoạt động) |
-| 3 | Thành viên 3 | feature/member-3 | Module Score (Tính điểm cộng) |
-| 4 | Thành viên 4 | feature/member-4 | Module Report (Báo cáo thống kê) |
-| 5 | Thành viên 5 | feature/member-5 | Module UI (Giao diện người dùng) |
-| 6 | Thành viên 6 | feature/member-6 | Module Database (Lưu trữ dữ liệu) |
+| 1 | Trần Thị Thanh Mai | feature/member-1 | Module Student (Quản lý sinh viên) |
+| 2 | Phạm Xuân Minh Quân | feature/member-2 | Module Activity (Quản lý hoạt động) |
+| 3 | Trần Đức Minh | feature/member-3 | Module Score (Tính điểm cộng) |
+| 4 | Lượng Thị Thủy Hằng| feature/member-4 | Module Report (Báo cáo thống kê) |
+| 5 | Bùi Thị Bích Liêu | feature/member-5 | Module UI (Giao diện người dùng) |
+| 6 | Trần Như Liễu | feature/member-6 | Module Database (Lưu trữ dữ liệu) |
 
 ## Cấu trúc dự án
 
