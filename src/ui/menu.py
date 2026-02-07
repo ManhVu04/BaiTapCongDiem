@@ -89,25 +89,136 @@ class Menu:
                 print("Lựa chọn không hợp lệ. Vui lòng thử lại.")
     
     def handle_student_menu(self):
-        """Xử lý menu sinh viên"""
-        # TODO: Thành viên 5 implement
-        self.display_student_menu()
-        print("(Chức năng đang được phát triển)")
+        while True:
+            self.display_student_menu()
+            choice = self.get_user_input("Chọn chức năng (1-5): ")
+            if choice == "1":
+                # Thêm sinh viên
+                student_id = self.get_user_input("Nhập mã sinh viên: ")
+                name = self.get_user_input("Nhập tên sinh viên: ")
+                class_name = self.get_user_input("Nhập tên lớp: ")
+                self.student_manager.add_student(student_id, name, class_name)
+            elif choice == "2":
+                # Xóa sinh viên
+                student_id = self.get_user_input("Nhập mã sinh viên cần xóa: ")
+                result = self.student_manager.remove_student(student_id)
+                if result:
+                    print("Đã xóa sinh viên thành công.")
+                else:
+                    print("Không tìm thấy sinh viên.")
+            elif choice == "3":
+                # Tìm sinh viên
+                student_id = self.get_user_input("Nhập mã sinh viên cần tìm: ")
+                student = self.student_manager.find_student(student_id)
+                if student:
+                    print(f"Tìm thấy: {student}")
+                else:
+                    print("Không tìm thấy sinh viên.")
+            elif choice == "4":
+                # Danh sách sinh viên
+                students = self.student_manager.list_students() if hasattr(self.student_manager, 'list_students') else self.student_manager.students
+                print("\n--- DANH SÁCH SINH VIÊN ---")
+                for s in students:
+                    print(s)
+            elif choice == "5":
+                break
+            else:
+                print("Lựa chọn không hợp lệ. Vui lòng thử lại.")
     
     def handle_activity_menu(self):
-        """Xử lý menu hoạt động"""
-        # TODO: Thành viên 5 implement
-        self.display_activity_menu()
-        print("(Chức năng đang được phát triển)")
+        while True:
+            self.display_activity_menu()
+            choice = self.get_user_input("Chọn chức năng (1-5): ")
+            if choice == "1":
+                # Tạo hoạt động
+                activity_id = self.get_user_input("Nhập mã hoạt động: ")
+                name = self.get_user_input("Nhập tên hoạt động: ")
+                activity_type = self.get_user_input("Nhập loại hoạt động (VOLUNTEER/ACADEMIC/SPORT/CULTURE/OTHER): ")
+                points = float(self.get_user_input("Nhập số điểm cộng: "))
+                from activity.activity_manager import ActivityType
+                try:
+                    atype = ActivityType[activity_type.upper()]
+                except Exception:
+                    print("Loại hoạt động không hợp lệ. Sử dụng OTHER.")
+                    atype = ActivityType.OTHER
+                self.activity_manager.create_activity(activity_id, name, atype, points) if hasattr(self.activity_manager, 'create_activity') else print("Chức năng chưa hỗ trợ.")
+            elif choice == "2":
+                # Xóa hoạt động
+                activity_id = self.get_user_input("Nhập mã hoạt động cần xóa: ")
+                self.activity_manager.remove_activity(activity_id) if hasattr(self.activity_manager, 'remove_activity') else print("Chức năng chưa hỗ trợ.")
+            elif choice == "3":
+                # Thêm sinh viên vào hoạt động
+                activity_id = self.get_user_input("Nhập mã hoạt động: ")
+                student_id = self.get_user_input("Nhập mã sinh viên: ")
+                self.activity_manager.add_participant(activity_id, student_id) if hasattr(self.activity_manager, 'add_participant') else print("Chức năng chưa hỗ trợ.")
+            elif choice == "4":
+                # Danh sách hoạt động
+                activities = self.activity_manager.list_activities() if hasattr(self.activity_manager, 'list_activities') else self.activity_manager.activities
+                print("\n--- DANH SÁCH HOẠT ĐỘNG ---")
+                for a in activities:
+                    print(a)
+            elif choice == "5":
+                break
+            else:
+                print("Lựa chọn không hợp lệ. Vui lòng thử lại.")
     
     def handle_score_menu(self):
-        """Xử lý menu điểm"""
-        # TODO: Thành viên 5 implement
-        self.display_score_menu()
-        print("(Chức năng đang được phát triển)")
+        while True:
+            self.display_score_menu()
+            choice = self.get_user_input("Chọn chức năng (1-3): ")
+            if choice == "1":
+                # Xem điểm sinh viên
+                student_id = self.get_user_input("Nhập mã sinh viên: ")
+                score = self.score_calculator.calculate_student_score(student_id)
+                print(f"Tổng điểm cộng của sinh viên {student_id}: {score}")
+            elif choice == "2":
+                # Cập nhật tất cả điểm (giả lập)
+                print("Cập nhật điểm cho tất cả sinh viên...")
+                if hasattr(self.student_manager, 'students'):
+                    for s in self.student_manager.students:
+                        score = self.score_calculator.calculate_student_score(s.student_id)
+                        s.bonus_points = score
+                        print(f"{s}: {score}")
+                else:
+                    print("Không có danh sách sinh viên.")
+            elif choice == "3":
+                break
+            else:
+                print("Lựa chọn không hợp lệ. Vui lòng thử lại.")
     
     def handle_report_menu(self):
-        """Xử lý menu báo cáo"""
-        # TODO: Thành viên 5 implement
-        self.display_report_menu()
-        print("(Chức năng đang được phát triển)")
+        while True:
+            self.display_report_menu()
+            choice = self.get_user_input("Chọn chức năng (1-5): ")
+            if choice == "1":
+                # Báo cáo sinh viên
+                student_id = self.get_user_input("Nhập mã sinh viên: ")
+                report = self.report_generator.generate_student_report(student_id)
+                print(report)
+            elif choice == "2":
+                # Báo cáo lớp
+                class_name = self.get_user_input("Nhập tên lớp: ")
+                if hasattr(self.report_generator, 'generate_class_report'):
+                    report = self.report_generator.generate_class_report(class_name)
+                    print(report)
+                else:
+                    print("Chức năng chưa hỗ trợ.")
+            elif choice == "3":
+                # Thống kê tổng hợp
+                if hasattr(self.report_generator, 'generate_summary_report'):
+                    report = self.report_generator.generate_summary_report()
+                    print(report)
+                else:
+                    print("Chức năng chưa hỗ trợ.")
+            elif choice == "4":
+                # Xuất CSV
+                if hasattr(self.report_generator, 'export_csv'):
+                    filename = self.get_user_input("Nhập tên file CSV: ")
+                    self.report_generator.export_csv(filename)
+                    print(f"Đã xuất báo cáo ra file {filename}")
+                else:
+                    print("Chức năng chưa hỗ trợ.")
+            elif choice == "5":
+                break
+            else:
+                print("Lựa chọn không hợp lệ. Vui lòng thử lại.")
