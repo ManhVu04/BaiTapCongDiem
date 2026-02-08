@@ -34,13 +34,19 @@ class StudentManager:
     
     def remove_student(self, student_id: str) -> bool:
         """Xóa sinh viên theo mã số"""
-        # TODO: Thành viên 1 implement
-        pass
+        for student in self.students:
+            if student.student_id == student_id:
+                self.students.remove(student)
+                print(f"Đã xóa sinh viên: {student}")
+                return True
+        return False
     
     def find_student(self, student_id: str) -> Student:
         """Tìm sinh viên theo mã số"""
-        # TODO: Thành viên 1 implement
-        pass
+        for student in self.students:
+            if student.student_id == student_id:
+                return student
+        return None
     
     def list_all_students(self) -> list:
         """Liệt kê tất cả sinh viên"""
@@ -49,5 +55,14 @@ class StudentManager:
     
     def update_student(self, student_id: str, **kwargs) -> bool:
         """Cập nhật thông tin sinh viên"""
-        # TODO: Thành viên 1 implement
-        pass
+        student = self.find_student(student_id)
+        if student:
+            if 'name' in kwargs:
+                student.name = kwargs['name']
+            if 'class_name' in kwargs:
+                student.class_name = kwargs['class_name']
+            if 'bonus_points' in kwargs:
+                student.bonus_points = kwargs['bonus_points']
+            print(f"Đã cập nhật sinh viên: {student}")
+            return True
+        return False
