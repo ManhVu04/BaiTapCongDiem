@@ -1,67 +1,59 @@
 """
-Module Report - Tạo báo cáo và thống kê
-Thành viên 4 phụ trách
+Report generation module.
 """
 
 from datetime import datetime
 
 
 class ReportGenerator:
-    """Class tạo báo cáo thống kê"""
-    
+    """Creates report texts for console display."""
+
     def __init__(self, database):
         self.database = database
-    
+
     def generate_student_report(self, student_id: str) -> str:
-        """Tạo báo cáo cho một sinh viên"""
-        # TODO: Thành viên 4 implement
-        report = f"""
+        return f"""
 ========================================
-        BÁO CÁO ĐIỂM CỘNG SINH VIÊN
+        BAO CAO DIEM CONG SINH VIEN
 ========================================
-Mã sinh viên: {student_id}
-Ngày tạo: {datetime.now().strftime('%d/%m/%Y %H:%M')}
+Ma sinh vien: {student_id}
+Ngay tao: {datetime.now().strftime('%d/%m/%Y %H:%M')}
 ----------------------------------------
-Chi tiết hoạt động:
-(Danh sách hoạt động sẽ hiển thị ở đây)
+Chi tiet hoat dong:
+(Danh sach hoat dong se hien thi o day)
 ----------------------------------------
-Tổng điểm cộng: 0.0
+Tong diem cong: 0.0
 ========================================
         """
-        return report
-    
+
     def generate_class_report(self, class_name: str) -> str:
-        """Tạo báo cáo cho một lớp"""
-        # TODO: Thành viên 4 implement
-        pass
-    
+        return f"Bao cao lop '{class_name}' chua duoc trien khai."
+
     def generate_activity_report(self, activity_id: str) -> str:
-        """Tạo báo cáo cho một hoạt động"""
-        # TODO: Thành viên 4 implement
-        pass
-    
+        return f"Bao cao hoat dong '{activity_id}' chua duoc trien khai."
+
     def generate_summary_report(self) -> str:
-        """Tạo báo cáo tổng hợp"""
-        # TODO: Thành viên 4 implement
-        pass
-    
+        return "Bao cao tong hop chua duoc trien khai."
+
     def export_to_csv(self, report_type: str, filename: str) -> bool:
-        """Xuất báo cáo ra file CSV"""
-        # TODO: Thành viên 4 implement
-        pass
-    
+        # Placeholder: keep a stable return type until full report module is done.
+        _ = report_type
+        _ = filename
+        return False
+
+    def export_csv(self, filename: str) -> bool:
+        """Compatibility wrapper used by the menu flow."""
+        return self.export_to_csv("summary", filename)
+
     def get_top_students(self, limit: int = 10) -> list:
-        """Lấy danh sách sinh viên có điểm cộng cao nhất"""
-        # TODO: Thành viên 4 implement
-        pass
-    
+        _ = limit
+        return []
+
     def get_statistics(self) -> dict:
-        """Lấy thống kê tổng quan"""
-        # TODO: Thành viên 4 implement
         return {
             "total_students": 0,
             "total_activities": 0,
             "average_score": 0.0,
             "max_score": 0.0,
-            "min_score": 0.0
+            "min_score": 0.0,
         }

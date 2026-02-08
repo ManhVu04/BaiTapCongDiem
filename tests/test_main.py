@@ -11,6 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from activity.activity_manager import ActivityManager, ActivityType
 from database.data_storage import DataStorage
+from report.report_generator import ReportGenerator
 from score.score_calculator import ScoreCalculator
 from student.student_manager import StudentManager
 
@@ -148,6 +149,26 @@ class TestScoreCalculator(unittest.TestCase):
         self.assertTrue(self.score_calculator.validate_score(2.0))
         self.assertFalse(self.score_calculator.validate_score(-0.1))
         self.assertFalse(self.score_calculator.validate_score(2.1))
+
+
+class TestReportGenerator(unittest.TestCase):
+    """Unit tests for ReportGenerator."""
+
+    def setUp(self):
+        self.temp_dir = tempfile.TemporaryDirectory()
+        self.database = DataStorage(data_dir=self.temp_dir.name)
+        self.report_generator = ReportGenerator(self.database)
+
+    def tearDown(self):
+        self.temp_dir.cleanup()
+
+    def test_export_csv_alias(self):
+        self.assertFalse(self.report_generator.export_csv("report.csv"))
+
+    def test_generate_report_defaults(self):
+        self.assertIsInstance(self.report_generator.generate_student_report("SV001"), str)
+        self.assertIsInstance(self.report_generator.generate_class_report("CTK44"), str)
+        self.assertIsInstance(self.report_generator.generate_summary_report(), str)
 
 
 if __name__ == "__main__":
