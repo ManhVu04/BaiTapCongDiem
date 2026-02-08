@@ -58,6 +58,10 @@ class ActivityManager:
         print(f"Không tìm thấy hoạt động với ID: {activity_id}")
         return False
     
+    def remove_activity(self, activity_id: str) -> bool:
+        """Alias để tương thích với UI (menu)"""
+        return self.delete_activity(activity_id)
+    
     def add_participant(self, activity_id: str, student_id: str) -> bool:
         """Thêm sinh viên tham gia hoạt động"""
         for activity in self.activities:
@@ -89,7 +93,7 @@ class ActivityManager:
     def list_activities(self) -> list:
         """Liệt kê tất cả hoạt động"""
         # TODO: Thành viên 2 implement
-        return self.activities
+        return list(self.activities)
     
     def get_activities_by_type(self, activity_type: ActivityType) -> list:
         """Lấy hoạt động theo loại"""
