@@ -1,0 +1,29 @@
+HƯỚNG DẪN SỬ DỤNG HỆ THỐNG QUẢN LÝ ĐIỂM CỘNG
+
+1) Yêu cầu
+- Python 3.10 trở lên
+
+2) Cài đặt và chạy
+- Clone repo và checkout nhánh Minh-Quan
+- Chạy ứng dụng: python src/main.py
+
+3) Menu chính
+- 1. Quản lý sinh viên
+- 2. Quản lý hoạt động
+- 3. Tính điểm cộng
+- 4. Xem báo cáo
+- 5. Thoát
+
+4) Quy trình thao tác nhanh
+- Thêm sinh viên: vào 1 -> chọn 1 -> nhập mã, tên, lớp
+- Tạo hoạt động: vào 2 -> chọn 1 -> nhập mã, tên, loại, điểm
+- Thêm sinh viên vào hoạt động: vào 2 -> chọn 3 -> nhập mã hoạt động và mã sinh viên
+- Xem điểm sinh viên: vào 3 -> chọn 1 -> nhập mã sinh viên
+
+5) Lưu trữ dữ liệu
+- Dữ liệu được lưu dưới dạng JSON trong thư mục data/
+- students.json, activities.json, scores.json sẽ được tạo tự động
+
+6) Ghi chú
+- Giao diện console, nhập số để chọn chức năng
+- Module Activity đã hỗ trợ remove_activity (alias cho delete_activity)

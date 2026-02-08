@@ -146,8 +146,9 @@ class Menu:
                 except ValueError as exc:
                     print(f"Loi: {exc}")
             elif choice == "2":
-                activity_id = self.get_user_input("Nhap ma hoat dong can xoa: ")
-                self.activity_manager.remove_activity(activity_id)
+                # Xóa hoạt động
+                activity_id = self.get_user_input("Nhập mã hoạt động cần xóa: ")
+                self.activity_manager.delete_activity(activity_id) if hasattr(self.activity_manager, 'delete_activity') else print("Chức năng chưa hỗ trợ.")
             elif choice == "3":
                 activity_id = self.get_user_input("Nhap ma hoat dong: ")
                 student_id = self.get_user_input("Nhap ma sinh vien: ")
@@ -197,11 +198,29 @@ class Menu:
                 report = self.report_generator.generate_summary_report()
                 print(report if report is not None else "Chuc nang chua ho tro.")
             elif choice == "4":
-                filename = self.get_user_input("Nhap ten file CSV: ")
-                if self.report_generator.export_csv(filename):
-                    print(f"Da xuat bao cao ra file {filename}")
+                # Xuất file (CSV hoặc JSON)
+                print("Chọn loại báo cáo: 1-Sinh viên, 2-Hoạt động, 3-Điểm")
+                report_choice = self.get_user_input("Chọn (1-3): ")
+                report_types = {"1": "students", "2": "activities", "3": "scores"}
+                report_type = report_types.get(report_choice, "students")
+
+                fmt_choice = self.get_user_input("Chọn định dạng xuất: 1-CSV, 2-JSON (mặc định CSV): ")
+                if fmt_choice.strip() == "2":
+                    filename = self.get_user_input("Nhập tên file JSON: ")
+                    if not filename.endswith('.json'):
+                        filename += '.json'
+                    if hasattr(self.report_generator, 'export_to_json'):
+                        self.report_generator.export_to_json(report_type, filename)
+                    else:
+                        print("Chức năng JSON chưa được hỗ trợ trong ReportGenerator.")
                 else:
-                    print("Khong the xuat bao cao CSV.")
+                    filename = self.get_user_input("Nhập tên file CSV: ")
+                    if not filename.endswith('.csv'):
+                        filename += '.csv'
+                    if hasattr(self.report_generator, 'export_to_csv'):
+                        self.report_generator.export_to_csv(report_type, filename)
+                    else:
+                        print("Chức năng CSV chưa hỗ trợ.")
             elif choice == "5":
                 break
             else:

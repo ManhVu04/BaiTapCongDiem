@@ -82,19 +82,17 @@ class StudentManager:
     
     def remove_student(self, student_id: str) -> bool:
         """Xóa sinh viên theo mã số"""
-        student = self.find_student(student_id)
-        if student is None:
-            return False
-
-        self.students.remove(student)
-        self._save_to_storage()
-        return True
+        for student in self.students:
+            if student.student_id == student_id:
+                self.students.remove(student)
+                print(f"Đã xóa sinh viên: {student}")
+                return True
+        return False
     
     def find_student(self, student_id: str) -> Optional[Student]:
         """Tìm sinh viên theo mã số"""
-        normalized_id = student_id.strip()
         for student in self.students:
-            if student.student_id == normalized_id:
+            if student.student_id == student_id:
                 return student
         return None
     
@@ -105,44 +103,13 @@ class StudentManager:
     def update_student(self, student_id: str, **kwargs) -> bool:
         """Cập nhật thông tin sinh viên"""
         student = self.find_student(student_id)
-        if student is None:
-            return False
-
-        updated = False
-
-        if "student_id" in kwargs:
-            new_id = str(kwargs["student_id"]).strip()
-            if not new_id:
-                return False
-
-            existed = self.find_student(new_id)
-            if existed is not None and existed is not student:
-                return False
-
-            student.student_id = new_id
-            updated = True
-
-        if "name" in kwargs:
-            new_name = str(kwargs["name"]).strip()
-            if not new_name:
-                return False
-            student.name = new_name
-            updated = True
-
-        if "class_name" in kwargs:
-            new_class = str(kwargs["class_name"]).strip()
-            if not new_class:
-                return False
-            student.class_name = new_class
-            updated = True
-
-        if "bonus_points" in kwargs:
-            try:
-                student.bonus_points = float(kwargs["bonus_points"])
-            except (TypeError, ValueError):
-                return False
-            updated = True
-
-        if updated:
-            self._save_to_storage()
-        return updated
+        if student:
+            if 'name' in kwargs:
+                student.name = kwargs['name']
+            if 'class_name' in kwargs:
+                student.class_name = kwargs['class_name']
+            if 'bonus_points' in kwargs:
+                student.bonus_points = kwargs['bonus_points']
+            print(f"Đã cập nhật sinh viên: {student}")
+            return True
+        return False

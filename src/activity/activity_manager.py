@@ -166,9 +166,6 @@ class ActivityManager:
         return True
 
     def delete_activity(self, activity_id: str) -> bool:
-        """Backward-compatible alias."""
-        return self.remove_activity(activity_id)
-
     def add_participant(self, activity_id: str, student_id: str) -> bool:
         """Add a student into activity."""
         activity = self.find_activity(activity_id)
@@ -205,8 +202,6 @@ class ActivityManager:
         return True
 
     def list_activities(self) -> list:
-        """Return all activities."""
-        return list(self.activities)
 
     def get_activities_by_type(self, activity_type: ActivityType) -> list:
         """Filter activities by type."""
