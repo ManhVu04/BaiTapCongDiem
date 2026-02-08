@@ -5,6 +5,7 @@ Thành viên 4 phụ trách
 
 import csv
 import os
+import json
 from datetime import datetime
 
 
@@ -206,6 +207,24 @@ TOP 5 SINH VIÊN ĐIỂM CAO NHẤT:
         except Exception as e:
             print(f"Lỗi xuất CSV: {e}")
             return False
+
+    def export_to_json(self, report_type: str, filename: str) -> bool:
+        """Xuất báo cáo ra file JSON"""
+        try:
+            os.makedirs(os.path.dirname(filename) if os.path.dirname(filename) else '.', exist_ok=True)
+
+            if report_type == "students":
+                return self._export_students_json(filename)
+            elif report_type == "activities":
+                return self._export_activities_json(filename)
+            elif report_type == "scores":
+                return self._export_scores_json(filename)
+            else:
+                print(f"Loại báo cáo không hợp lệ: {report_type}")
+                return False
+        except Exception as e:
+            print(f"Lỗi xuất JSON: {e}")
+            return False
     
     def _export_students_csv(self, filename: str) -> bool:
         """Xuất danh sách sinh viên ra CSV"""
@@ -252,6 +271,72 @@ TOP 5 SINH VIÊN ĐIỂM CAO NHẤT:
                 score = self.score_calculator.calculate_student_score(student.student_id)
                 writer.writerow([student.student_id, student.name, student.class_name, score])
         print(f"Đã xuất file: {filename}")
+        return True
+
+    def _export_students_json(self, filename: str) -> bool:
+        """Xuất danh sách sinh viên ra JSON"""
+        if not self.student_manager:
+            return False
+
+        students = self.student_manager.list_all_students()
+        data = []
+        for student in students:
+            score = 0.0
+            if self.score_calculator:
+                score = self.score_calculator.calculate_student_score(student.student_id)
+            data.append({
+                'student_id': student.student_id,
+                'name': student.name,
+                'class_name': student.class_name,
+                'bonus_points': score
+            })
+
+        with open(filename, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        print(f"Đã xuất file JSON: {filename}")
+        return True
+
+    def _export_activities_json(self, filename: str) -> bool:
+        """Xuất danh sách hoạt động ra JSON"""
+        if not self.activity_manager:
+            return False
+
+        activities = self.activity_manager.list_activities()
+        data = []
+        for act in activities:
+            data.append({
+                'activity_id': act.activity_id,
+                'name': act.name,
+                'type': act.activity_type.value,
+                'points': act.points,
+                'participants_count': len(act.participants),
+                'date': act.date.strftime('%Y-%m-%d') if act.date else None
+            })
+
+        with open(filename, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        print(f"Đã xuất file JSON: {filename}")
+        return True
+
+    def _export_scores_json(self, filename: str) -> bool:
+        """Xuất điểm cộng ra JSON"""
+        if not self.student_manager or not self.score_calculator:
+            return False
+
+        students = self.student_manager.list_all_students()
+        data = []
+        for student in students:
+            score = self.score_calculator.calculate_student_score(student.student_id)
+            data.append({
+                'student_id': student.student_id,
+                'name': student.name,
+                'class_name': student.class_name,
+                'bonus_points': score
+            })
+
+        with open(filename, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        print(f"Đã xuất file JSON: {filename}")
         return True
     
     def get_top_students(self, limit: int = 10) -> list:
