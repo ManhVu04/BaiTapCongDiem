@@ -57,10 +57,7 @@ class ActivityManager:
                 return True
         print(f"Không tìm thấy hoạt động với ID: {activity_id}")
         return False
-    
-    def remove_activity(self, activity_id: str) -> bool:
-        """Alias để tương thích với UI (menu)"""
-        return self.delete_activity(activity_id)
+<<<
     
     def add_participant(self, activity_id: str, student_id: str) -> bool:
         """Thêm sinh viên tham gia hoạt động"""
