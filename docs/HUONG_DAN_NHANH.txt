@@ -1,0 +1,17 @@
+HUONG DAN NHANH - BAI TAP CONG DIEM
+
+1) Chay chuong trinh:
+python src/main.py
+
+2) Chay test:
+python -m unittest discover -s tests -v
+
+3) Quy trinh git ngan:
+git pull origin main
+git add .
+git commit -m "docs: mo ta ngan gon"
+git push origin mai
+
+4) Ghi nho:
+- Commit message nen ngan gon va ro rang.
+- Neu sua code, uu tien them test de tranh loi hoi quy.

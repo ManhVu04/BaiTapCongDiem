@@ -1,6 +1,5 @@
 """
-Module Report - Tạo báo cáo và thống kê
-Thành viên 4 phụ trách
+Report generation module.
 """
 
 import csv
@@ -10,51 +9,15 @@ from datetime import datetime
 
 
 class ReportGenerator:
-    """Class tạo báo cáo thống kê"""
-    
-    def __init__(self, database, student_manager=None, activity_manager=None, score_calculator=None):
+    """Creates report texts for console display."""
+
+    def __init__(self, database):
         self.database = database
-        self.student_manager = student_manager
-        self.activity_manager = activity_manager
-        self.score_calculator = score_calculator
-    
+
     def generate_student_report(self, student_id: str) -> str:
-        """Tạo báo cáo cho một sinh viên"""
-        student = None
-        activities_list = []
-        total_score = 0.0
-        
-        # Tìm sinh viên
-        if self.student_manager:
-            student = self.student_manager.find_student(student_id)
-        
-        # Lấy danh sách hoạt động sinh viên tham gia
-        if self.activity_manager:
-            for activity in self.activity_manager.list_activities():
-                if student_id in activity.participants:
-                    activities_list.append(activity)
-                    total_score += activity.points
-        
-        # Tính điểm cuối cùng (giới hạn tối đa 2.0)
-        if self.score_calculator:
-            total_score = self.score_calculator.apply_bonus_rules(total_score)
-        else:
-            total_score = min(total_score, 2.0)
-        
-        # Tạo báo cáo
-        student_name = student.name if student else "Không tìm thấy"
-        student_class = student.class_name if student else "N/A"
-        
-        activities_str = ""
-        if activities_list:
-            for act in activities_list:
-                activities_str += f"  - {act.name} ({act.activity_type.value}): {act.points} điểm\n"
-        else:
-            activities_str = "  (Chưa tham gia hoạt động nào)\n"
-        
-        report = f"""
+        return f"""
 ========================================
-        BÁO CÁO ĐIỂM CỘNG SINH VIÊN
+        BAO CAO DIEM CONG SINH VIEN
 ========================================
 Mã sinh viên: {student_id}
 Họ tên: {student_name}
@@ -66,8 +29,7 @@ Chi tiết hoạt động:
 Tổng điểm cộng: {total_score}
 ========================================
         """
-        return report
-    
+
     def generate_class_report(self, class_name: str) -> str:
         """Tạo báo cáo cho một lớp"""
         students_in_class = []
@@ -102,9 +64,7 @@ Tổng điểm cộng: {total_score}
             students_str += f"  {idx}. {student.student_id} - {student.name}: {score} điểm\n"
         
         report = f"""
-========================================
         BÁO CÁO ĐIỂM CỘNG LỚP {class_name}
-========================================
 Ngày tạo: {datetime.now().strftime('%d/%m/%Y %H:%M')}
 Tổng số sinh viên: {len(students_in_class)}
 ----------------------------------------
@@ -114,7 +74,6 @@ Thống kê:
   - Điểm trung bình: {avg_score:.2f}
   - Điểm cao nhất: {max_score}
   - Điểm thấp nhất: {min_score}
-========================================
         """
         return report
     
@@ -144,9 +103,7 @@ Thống kê:
             participants_str = "  (Chưa có sinh viên tham gia)\n"
         
         report = f"""
-========================================
         BÁO CÁO HOẠT ĐỘNG
-========================================
 Mã hoạt động: {activity.activity_id}
 Tên hoạt động: {activity.name}
 Loại: {activity.activity_type.value}
@@ -172,9 +129,7 @@ Danh sách sinh viên tham gia ({len(activity.participants)} người):
             top_str = "  (Chưa có dữ liệu)\n"
         
         report = f"""
-========================================
         BÁO CÁO TỔNG HỢP HỆ THỐNG
-========================================
 Ngày tạo: {datetime.now().strftime('%d/%m/%Y %H:%M')}
 ----------------------------------------
 THỐNG KÊ TỔNG QUAN:
