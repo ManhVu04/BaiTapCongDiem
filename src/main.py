@@ -21,8 +21,8 @@ def main():
     database = DataStorage()
     student_manager = StudentManager(database)
     activity_manager = ActivityManager(database)
-    score_calculator = ScoreCalculator(database)
-    report_generator = ReportGenerator(database)
+    score_calculator = ScoreCalculator(database, student_manager, activity_manager)
+    report_generator = ReportGenerator(database, student_manager, activity_manager, score_calculator)
     
     # Khởi chạy giao diện menu
     menu = Menu(
